@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+</head>
+<body>
+    <script>
+        function register(){
+            if(document.getElementById("first_name").value == ''){
+                alert('insert first name ');
+                document.getElementById("first_name").focus();
+                return false;
+            }
+            if(document.getElementById("last_name").value == ''){
+                alert('insert last name ');
+                document.getElementById("last_name").focus();
+                return false;
+            }
+            if(document.getElementById("pw").value == ''){
+                alert('Enter the password');
+                document.getElementById("pw").focus();
+                return false;
+            }
+            let firstName = document.getElementById("first_name").value;
+            let lastName = document.getElementById("last_name").value;
+            let pw = document.getElementById("pw").value;
+            const values = [firstName,lastName,pw];
+            let result = document.getElementById("result");
+            // Creating a XHR object
+            let xhr = new XMLHttpRequest();
+            let url = "../controller/registrationController.php";
+        
+            // open a connection
+            xhr.open("POST", url, true);
+  
+            // Set the request header i.e. which type of content you are sending
+            xhr.setRequestHeader("Content-Type", "application/json");
+  
+            // Create a state change callback
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+  
+                    // Print received data from server
+                    result.innerHTML = this.responseText;
+  
+                }
+            };
+  
+            // Converting JSON data to string
+            var data = JSON.stringify(values);
+  
+            // Sending data with the request
+            xhr.send(data);
+            
+
+
+        }
+    </script>
+
+
+    <form>
+        <div>first name : <input type="text" name="first_name" id="first_name"></div>
+        <div>last name : <input type="text" name="last_name" id="last_name"></div>
+        <div>password : <input type="password" name="pw" id="pw"></div>
+        <div><button onclick = "register()">Submit</button></div>       
+    </form>
+    <div id="result"></div>
+</body>
+</html>
